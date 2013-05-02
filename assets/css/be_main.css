@@ -1,0 +1,72 @@
+/*
+ * Copyright MADE/YOUR/DAY OG <mail@madeyourday.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+.rip_selected_icon {
+	display: inline-block;
+	height: 32px;
+	min-width: 32px;
+	margin: 5px 10px 5px 0;
+	padding: 6px;
+	border: 1px solid #ccc;
+	font-size: 32px;
+	line-height: 1;
+	text-align: center;
+	vertical-align: middle;
+	background: #f6f6f6;
+}
+.rip_icons {
+	display: inline-block;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	margin-bottom: 20px;
+	padding-right: 3px;
+}
+.rip_icons_toolbar {
+	position: relative;
+	height: 25px;
+	margin-bottom: -1px;
+	padding: 2px 2px 2px 10px;
+	border: 1px solid #ccc;
+	font-family: Verdana, Arial, sans-serif;
+	background: #f6f6f6;
+}
+.rip_icons_toolbar input {
+	width: 40%;
+}
+.rip_icons_toolbar_close {
+	position: absolute;
+	top: 2px;
+	right: 0;
+	padding: 0 10px;
+	font-weight: bold;
+	font-size: 18px;
+}
+.rip_icons > a {
+	float: left;
+	width: 32px;
+	height: 32px;
+	margin: 0 -1px -1px 0;
+	padding: 4px;
+	border: 1px solid #ccc;
+	font-family: inherit;
+	font-size: 32px;
+	line-height: 1;
+	text-align: center;
+}
+.rip_icons > a:hover,
+.rip_icons > a:focus {
+	color: #fff;
+	background: #666;
+	-webkit-transform: scale(2);
+	transform: scale(2);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3)
+}
+.rip_icons.rip_collapsed {
+	display: none;
+}
