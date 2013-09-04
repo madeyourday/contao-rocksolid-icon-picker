@@ -32,6 +32,7 @@ class IconPicker extends \Widget
 	 */
 	public function generate()
 	{
+		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/rocksolid-icon-picker/assets/js/be_main.js';
 		$GLOBALS['TL_CSS'][] = 'system/modules/rocksolid-icon-picker/assets/css/be_main.css';
 		$this->loadLanguageFile('rocksolid_icon_picker');
 
@@ -48,7 +49,7 @@ class IconPicker extends \Widget
 		$html .= $this->varValue ? '&#x' . $this->varValue . ';' : '&nbsp;';
 		$html .= '</div>';
 
-		$html .= '<a href="#" class="tl_submit" onclick="$(\'rip_icons_' . $this->strId . '\').removeClass(\'rip_collapsed\'); $(\'rip_search_' . $this->strId . '\') ? $(\'rip_search_' . $this->strId . '\').set(\'value\', \'\').fireEvent(\'change\') : false ; return false;">' . $GLOBALS['TL_LANG']['rocksolid_icon_picker']['pick_icon'] . '</a>';
+		$html .= '<a href="#" class="tl_submit" onclick="ripOpen(\'rip_icons_' . $this->strId . '\'); return false;">' . $GLOBALS['TL_LANG']['rocksolid_icon_picker']['pick_icon'] . '</a>';
 
 		$icons = $this->getIconsFromFont($fontPath);
 		$searchEnabled = false;
@@ -66,17 +67,10 @@ class IconPicker extends \Widget
 			$html .= '<input type="search" id="rip_search_' . $this->strId . '" class="tl_text">';
 		}
 
-		$html .= '<a href="" onclick="$(\'rip_icons_' . $this->strId . '\').addClass(\'rip_collapsed\'); return false;" class="rip_icons_toolbar_close">&#xd7;</a>';
+		$html .= '<a href="" class="rip_icons_toolbar_close">&#xd7;</a>';
 		$html .= '</div>';
 
-		$html .= '<a href="" data-code="" class="rip_icon">&nbsp;</a>';
-		foreach ($icons as $icon) {
-			$html .= '<a href="" data-code="' . $icon['code'] . '" class="rip_icon"';
-			if (!empty($icon['name'])) {
-				$html .= ' data-name="' . htmlspecialchars($icon['name']) . '"';
-			}
-			$html .= '>&#x' . $icon['code'] . ';</a>';
-		}
+		$html .= '<span data-rip-codes="' . htmlspecialchars(json_encode($icons), ENT_QUOTES) . '"></span>';
 
 		$html .= '</div>';
 
@@ -138,7 +132,7 @@ class IconPicker extends \Widget
 	 * Get the icon list from a SVG font and read class names from HTML or CSS
 	 *
 	 * @param  string $fontPath Path to the SVG font file
-	 * @return array            All icons as arrays (char, code, name)
+	 * @return array            All icons as arrays (code, name)
 	 */
 	static public function getIconsFromFont($fontPath)
 	{
@@ -160,11 +154,10 @@ class IconPicker extends \Widget
 
 			if ($xmlGlyph['unicode']) {
 
-				$glyph = array(
-					'char' => (string)$xmlGlyph['unicode'],
-				);
+				$glyph = array();
+				$char = (string)$xmlGlyph['unicode'];
 
-				$unicode = unpack('N', mb_convert_encoding($glyph['char'], 'UCS-4BE', 'UTF-8'));
+				$unicode = unpack('N', mb_convert_encoding($char, 'UCS-4BE', 'UTF-8'));
 				$glyph['code'] = dechex($unicode[1]);
 
 				if(isset($xmlGlyph['glyph-name'])){
