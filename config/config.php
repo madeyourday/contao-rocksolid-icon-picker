@@ -13,3 +13,7 @@
  */
 
 $GLOBALS['BE_FFL']['rocksolid_icon_picker'] = 'MadeYourDay\\Contao\\Widget\\IconPicker';
+
+$GLOBALS['TL_PURGE']['custom']['rocksolid_icon_picker'] = array(
+	'callback' => array('MadeYourDay\\Contao\\Widget\\IconPicker', 'purgeCache'),
+);

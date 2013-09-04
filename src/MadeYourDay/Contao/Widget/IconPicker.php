@@ -140,6 +140,19 @@ class IconPicker extends \Widget
 			return array();
 		}
 
+		// calculate the cache key
+		$cacheKey = md5_file(TL_ROOT . '/' . $fontPath);
+		if (file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.html')) {
+			$cacheKey = md5($cacheKey . md5_file($infoFilePath));
+		}
+		if (file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.css')) {
+			$cacheKey = md5($cacheKey . md5_file($infoFilePath));
+		}
+		$cacheFile = TL_ROOT . '/system/cache/rocksolid_icon_picker/' . $cacheKey . '.php';
+		if (file_exists($cacheFile)) {
+			return include $cacheFile;
+		}
+
 		$font = new \SimpleXMLElement(TL_ROOT . '/' . $fontPath, null, true);
 		if(
 			!isset($font->defs[0]->font[0]->glyph) ||
@@ -203,6 +216,30 @@ class IconPicker extends \Widget
 
 		}
 
+		if (!is_dir(dirname($cacheFile))) {
+			mkdir(dirname($cacheFile), 0777, true);
+		}
+		if (is_dir(dirname($cacheFile))) {
+			file_put_contents($cacheFile, '<?php' . "\n" . 'return ' . var_export($glyphs, true) . ';');
+		}
+
 		return $glyphs;
+	}
+
+	/**
+	 * Purge cache files system/cache/rocksolid_icon_picker/*.php
+	 *
+	 * @return void
+	 */
+	public static function purgeCache()
+	{
+		$dirPath = TL_ROOT . '/system/cache/rocksolid_icon_picker';
+		if (is_dir($dirPath)) {
+			foreach (scandir($dirPath) as $file) {
+				if (substr($file, -4) === '.php') {
+					unlink($dirPath . '/' . $file);
+				}
+			}
+		}
 	}
 }
