@@ -148,9 +148,10 @@ class IconPicker extends \Widget
 		if (file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.css')) {
 			$cacheKey = md5($cacheKey . md5_file($infoFilePath));
 		}
-		$cacheFile = TL_ROOT . '/system/cache/rocksolid_icon_picker/' . $cacheKey . '.php';
-		if (file_exists($cacheFile)) {
-			return include $cacheFile;
+		$cacheFilePath = 'system/cache/rocksolid_icon_picker/' . $cacheKey . '.php';
+		$cacheFileFullPath = TL_ROOT . '/' . $cacheFilePath;
+		if (file_exists($cacheFileFullPath)) {
+			return include $cacheFileFullPath;
 		}
 
 		$font = new \SimpleXMLElement(TL_ROOT . '/' . $fontPath, null, true);
@@ -216,12 +217,9 @@ class IconPicker extends \Widget
 
 		}
 
-		if (!is_dir(dirname($cacheFile))) {
-			mkdir(dirname($cacheFile), 0777, true);
-		}
-		if (is_dir(dirname($cacheFile))) {
-			file_put_contents($cacheFile, '<?php' . "\n" . 'return ' . var_export($glyphs, true) . ';');
-		}
+		$cacheFile = new \File($cacheFilePath, true);
+		$cacheFile->write('<?php' . "\n" . 'return ' . var_export($glyphs, true) . ';');
+		$cacheFile->close();
 
 		return $glyphs;
 	}
@@ -233,11 +231,13 @@ class IconPicker extends \Widget
 	 */
 	public static function purgeCache()
 	{
-		$dirPath = TL_ROOT . '/system/cache/rocksolid_icon_picker';
-		if (is_dir($dirPath)) {
-			foreach (scandir($dirPath) as $file) {
+		$dirPath = 'system/cache/rocksolid_icon_picker';
+		$dirFullPath = TL_ROOT . '/' . $dirPath;
+		if (is_dir($dirFullPath)) {
+			foreach (scandir($dirFullPath) as $file) {
 				if (substr($file, -4) === '.php') {
-					unlink($dirPath . '/' . $file);
+					$file = new \File($dirPath . '/' . $file);
+					$file->delete();
 				}
 			}
 		}
