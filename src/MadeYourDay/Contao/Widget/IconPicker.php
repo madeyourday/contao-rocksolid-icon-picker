@@ -45,7 +45,10 @@ class IconPicker extends \Widget
 				. '</strong></p>';
 		}
 
-		$html = '<div class="rip_selected_icon" id="rip_selected_' . $this->strId . '" style="font-family: rip_font_' . $this->strId . ';">';
+		// IE does not support font names longer than 31 characters
+		$fontFamily = substr('rip_font_' . md5($fontPath), 0, 31);
+
+		$html = '<div class="rip_selected_icon" id="rip_selected_' . $this->strId . '" style="font-family: ' . $fontFamily . ';">';
 		$html .= $this->varValue ? '&#x' . $this->varValue . ';' : '&nbsp;';
 		$html .= '</div>';
 
@@ -59,7 +62,7 @@ class IconPicker extends \Widget
 			}
 		}
 
-		$html .= '<div class="rip_icons rip_collapsed" id="rip_icons_' . $this->strId . '" style="font-family: rip_font_' . $this->strId . ';">';
+		$html .= '<div class="rip_icons rip_collapsed" id="rip_icons_' . $this->strId . '" style="font-family: ' . $fontFamily . ';">';
 		$html .= '<div class="rip_icons_toolbar">';
 
 		if ($searchEnabled) {
@@ -112,7 +115,7 @@ class IconPicker extends \Widget
 
 		$html .= '<style>';
 		$html .= '@font-face {';
-		$html .= '	font-family: rip_font_' . $this->strId . ';';
+		$html .= '	font-family: ' . $fontFamily . ';';
 		$html .= '	src: url(\'' . $fontPathNoSuffix . '.eot\');';
 		$html .= '	src: url(\'' . $fontPathNoSuffix . '.eot?#iefix\') format(\'embedded-opentype\'),';
 		$html .= '	     url(\'' . $fontPathNoSuffix . '.woff\') format(\'woff\'),';
