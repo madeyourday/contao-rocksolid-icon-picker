@@ -139,7 +139,7 @@ class IconPicker extends \Widget
 	 */
 	static public function getIconsFromFont($fontPath)
 	{
-		if (!file_exists(TL_ROOT . '/' . $fontPath)) {
+		if (!$fontPath || !file_exists(TL_ROOT . '/' . $fontPath)) {
 			return array();
 		}
 
