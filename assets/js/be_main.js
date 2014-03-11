@@ -81,7 +81,7 @@ var open = function(iconsWrap) {
 			'href': '',
 			'data-code': icon.code,
 			'class': 'rip_icon',
-			'html': '&#x' + icon.code + ';',
+			'html': icon.code ? '&#x' + icon.code + ';' : '',
 			events: {click: clickIcon}
 		}));
 		if (icon.name) {

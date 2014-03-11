@@ -62,6 +62,11 @@ class IconPicker extends \Widget
 			}
 		}
 
+		$icons = array_merge(
+			array(array('code' => '', 'name' => 'none')),
+			$icons
+		);
+
 		$html .= '<div class="rip_icons rip_collapsed" id="rip_icons_' . $this->strId . '" style="font-family: ' . $fontFamily . ';">';
 		$html .= '<div class="rip_icons_toolbar">';
 
