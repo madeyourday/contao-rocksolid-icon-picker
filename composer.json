@@ -26,7 +26,7 @@
 		"classmap":["src/"]
 	},
 	"replace":{
-		"contao-legacy/rocksolid-icon-picker":"*"
+		"contao-legacy/rocksolid-icon-picker":"self.version"
 	},
 	"extra":{
 		"contao":{
