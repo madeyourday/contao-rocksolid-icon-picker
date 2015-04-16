@@ -205,18 +205,39 @@ class IconPicker extends \Widget
 
 			if (
 				preg_match_all(
-					'(\\sdata-icon="&#x(?P<key>[0-9a-f]{1,6});".*?\\sclass="class-name"[^>]*>icon-(?P<value>[0-9a-z_-]*))is',
+					'(\\sdata-icon="(?P<key>[^"]+)".*?\\sclass="class-name"[^>]*>icon-(?P<value>[0-9a-z_-]*))is',
 					$infoFileContents,
 					$matches
 				) ||
 				preg_match_all(
-					'(\\s\\.icon-(?P<value>[0-9a-z_-]*)[^}]+?content\\s*:\\s*["\']\\\\(?P<key>[0-9a-f]{1,6}))is',
+					'((?P<value>[^}]+)?content\\s*:\\s*["\'](?P<key>[^"\']+)["\'])is',
 					$infoFileContents,
 					$matches
 				)
 			) {
 
-				$iconNames = array_combine($matches['key'], $matches['value']);
+				$iconNames = array_combine(array_map(function($key) {
+					if (substr($key, 0, 3) === '&#x') {
+						return rtrim(substr($key, 3), ';');
+					}
+					if (substr($key, 0, 1) === '\\') {
+						return substr($key, 1);
+					}
+					if (mb_strlen($key, 'UTF-8') === 1) {
+						return ltrim(implode('',
+							unpack('H*', mb_convert_encoding($key, 'UCS-4BE', 'UTF-8'))
+						), '0');
+					}
+					return '';
+
+				}, $matches['key']), $matches['value']);
+
+				$iconNames = array_map('trim', preg_replace(
+					array('(/\\*.*?\\*/|:before|:after)is', '([^a-z0-9]+)is'),
+					array('', ' '),
+					$iconNames
+				));
+
 				foreach ($glyphs as $key => $glyph) {
 					if (isset($iconNames[$glyph['code']]) && empty($glyph['name'])) {
 						$glyphs[$key]['name'] = $iconNames[$glyph['code']];
