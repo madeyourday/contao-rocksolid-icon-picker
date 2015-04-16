@@ -82,6 +82,7 @@ class IconPicker extends \Widget
 
 		$html .= '</div>';
 
+		/*
 		$html .= '<script>(function(){';
 		$html .= '$(\'rip_icons_' . $this->strId . '\').getChildren(\'a\').addEvent(\'click\', function(event){';
 		$html .= '	$(\'ctrl_' . $this->strId . '\').set(\'value\', this.get(\'data-code\'));';
@@ -117,6 +118,7 @@ class IconPicker extends \Widget
 		}
 
 		$html .= '})();</script>';
+		*/
 
 		$html .= '<style>';
 		$html .= '@font-face {';
