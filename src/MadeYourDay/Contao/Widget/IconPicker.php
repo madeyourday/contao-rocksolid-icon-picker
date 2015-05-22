@@ -139,6 +139,32 @@ class IconPicker extends \Widget
 	}
 
 	/**
+	 * Get path and fullPath to the cache directory
+	 *
+	 * @return string
+	 */
+	public static function getCacheDirPaths()
+	{
+		if (version_compare(VERSION, '4.0', '>=')) {
+			$cacheDir = \System::getContainer()->getParameter('kernel.cache_dir') . '/contao';
+		}
+		else {
+			$cacheDir = TL_ROOT . '/system/cache';
+		}
+
+		$dirFullPath = $cacheDir . '/rocksolid_icon_picker';
+		$dirPath = $dirFullPath;
+		if (substr($dirPath, 0, strlen(TL_ROOT) + 1) === TL_ROOT . '/') {
+			$dirPath = substr($dirPath, strlen(TL_ROOT) + 1);
+		}
+
+		return array(
+			'path' => $dirPath,
+			'fullPath' => $dirFullPath,
+		);
+	}
+
+	/**
 	 * Get the icon list from a SVG font and read class names from HTML or CSS
 	 *
 	 * @param  string $fontPath Path to the SVG font file
@@ -158,8 +184,9 @@ class IconPicker extends \Widget
 		if (file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.css')) {
 			$cacheKey = md5($cacheKey . md5_file($infoFilePath));
 		}
-		$cacheFilePath = 'system/cache/rocksolid_icon_picker/' . $cacheKey . '.php';
-		$cacheFileFullPath = TL_ROOT . '/' . $cacheFilePath;
+		$cacheDirPaths = static::getCacheDirPaths();
+		$cacheFilePath = $cacheDirPaths['path'] . '/' . $cacheKey . '.php';
+		$cacheFileFullPath = $cacheDirPaths['fullPath'] . '/' . $cacheKey . '.php';
 		if (file_exists($cacheFileFullPath)) {
 			return include $cacheFileFullPath;
 		}
@@ -256,18 +283,17 @@ class IconPicker extends \Widget
 	}
 
 	/**
-	 * Purge cache files system/cache/rocksolid_icon_picker/*.php
+	 * Purge cache files rocksolid_icon_picker/*.php
 	 *
 	 * @return void
 	 */
 	public static function purgeCache()
 	{
-		$dirPath = 'system/cache/rocksolid_icon_picker';
-		$dirFullPath = TL_ROOT . '/' . $dirPath;
-		if (is_dir($dirFullPath)) {
-			foreach (scandir($dirFullPath) as $file) {
+		$cacheDirPaths = static::getCacheDirPaths();
+		if (is_dir($cacheDirPaths['fullPath'])) {
+			foreach (scandir($cacheDirPaths['fullPath']) as $file) {
 				if (substr($file, -4) === '.php') {
-					$file = new \File($dirPath . '/' . $file);
+					$file = new \File($cacheDirPaths['path'] . '/' . $file);
 					$file->delete();
 				}
 			}
