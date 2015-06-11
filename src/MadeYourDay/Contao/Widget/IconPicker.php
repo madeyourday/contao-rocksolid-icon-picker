@@ -32,8 +32,12 @@ class IconPicker extends \Widget
 	 */
 	public function generate()
 	{
-		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/rocksolid-icon-picker/assets/js/be_main.js';
-		$GLOBALS['TL_CSS'][] = 'system/modules/rocksolid-icon-picker/assets/css/be_main.css';
+		$assetsDir = version_compare(VERSION, '4.0', '>=')
+			? 'bundles/rocksolidiconpicker'
+			: 'system/modules/rocksolid-icon-picker/assets';
+
+		$GLOBALS['TL_JAVASCRIPT'][] = $assetsDir . '/js/be_main.js';
+		$GLOBALS['TL_CSS'][] = $assetsDir . '/css/be_main.css';
 		$this->loadLanguageFile('rocksolid_icon_picker');
 
 		$fontPath = $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['iconFont'];
