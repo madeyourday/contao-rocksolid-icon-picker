@@ -3,22 +3,26 @@
 	"description":"RockSolid Icon Picker Contao Extension.",
 	"keywords":["contao","icons","widget"],
 	"type":"contao-module",
-	"homepage":"http://rocksolidthemes.com/de/contao/plugins/custom-content-elements",
+	"homepage":"https://rocksolidthemes.com/de/contao/plugins/custom-content-elements",
 	"license":"MIT",
 	"authors":[
 		{
 			"name":"RockSolid Themes",
-			"homepage":"http://rocksolidthemes.com/de/contao-themes",
+			"homepage":"https://rocksolidthemes.com/de/contao-themes",
 			"role":"Developer"
 		}
 	],
 	"support":{
-		"forum":"http://help.rocksolidthemes.com/discussions",
+		"forum":"http://help.rocksolidthemes.com/discussions/contao",
 		"issues":"https://github.com/madeyourday/contao-rocksolid-icon-picker/issues",
 		"source":"https://github.com/madeyourday/contao-rocksolid-icon-picker"
 	},
 	"require":{
-		"php":">=5.3"
+		"php":">=5.5",
+		"contao/core-bundle":"^4.3"
+	},
+	"conflict": {
+		"contao/core": "*"
 	},
 	"autoload":{
 		"psr-4": {
@@ -27,12 +31,5 @@
 	},
 	"replace":{
 		"contao-legacy/rocksolid-icon-picker":"self.version"
-	},
-	"extra":{
-		"contao":{
-			"sources":{
-				"":"system/modules/rocksolid-icon-picker"
-			}
-		}
 	}
 }
