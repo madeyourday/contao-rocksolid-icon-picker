@@ -37,7 +37,7 @@
 		"branch-alias": {
 			"dev-develop": "2.0.x-dev"
 		},
-		"contao-manager-plugin": "MadeYourDay\\RockSolidSlider\\ContaoManagerPlugin"
+		"contao-manager-plugin": "MadeYourDay\\RockSolidIconPicker\\ContaoManagerPlugin"
 	},
 	"replace":{
 		"contao-legacy/rocksolid-icon-picker":"self.version"
