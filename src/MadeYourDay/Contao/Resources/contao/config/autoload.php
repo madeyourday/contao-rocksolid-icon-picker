@@ -13,5 +13,5 @@
  */
 
 ClassLoader::addClasses(array(
-	'MadeYourDay\\Contao\\Widget\\IconPicker' => 'system/modules/rocksolid-icon-picker/src/MadeYourDay/Contao/Widget/IconPicker.php',
+	'MadeYourDay\\RockSolidIconPicker\\Widget\\IconPicker' => 'system/modules/rocksolid-icon-picker/src/MadeYourDay/Contao/Widget/IconPicker.php',
 ));

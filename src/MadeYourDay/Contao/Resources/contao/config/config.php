@@ -12,8 +12,8 @@
  * @author Martin Auswöger <martin@madeyourday.net>
  */
 
-$GLOBALS['BE_FFL']['rocksolid_icon_picker'] = 'MadeYourDay\\Contao\\Widget\\IconPicker';
+$GLOBALS['BE_FFL']['rocksolid_icon_picker'] = 'MadeYourDay\\RockSolidIconPicker\\Widget\\IconPicker';
 
 $GLOBALS['TL_PURGE']['custom']['rocksolid_icon_picker'] = array(
-	'callback' => array('MadeYourDay\\Contao\\Widget\\IconPicker', 'purgeCache'),
+	'callback' => array('MadeYourDay\\RockSolidIconPicker\\Widget\\IconPicker', 'purgeCache'),
 );
