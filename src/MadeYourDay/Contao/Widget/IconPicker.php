@@ -32,9 +32,7 @@ class IconPicker extends \Widget
 	 */
 	public function generate()
 	{
-		$assetsDir = version_compare(VERSION, '4.0', '>=')
-			? 'bundles/rocksolidiconpicker'
-			: 'system/modules/rocksolid-icon-picker/assets';
+		$assetsDir = 'bundles/rocksolidiconpicker';
 
 		$GLOBALS['TL_JAVASCRIPT'][] = $assetsDir . '/js/be_main.js';
 		$GLOBALS['TL_CSS'][] = $assetsDir . '/css/be_main.css';
@@ -149,12 +147,7 @@ class IconPicker extends \Widget
 	 */
 	public static function getCacheDirPaths()
 	{
-		if (version_compare(VERSION, '4.0', '>=')) {
-			$cacheDir = \System::getContainer()->getParameter('kernel.cache_dir') . '/contao';
-		}
-		else {
-			$cacheDir = TL_ROOT . '/system/cache';
-		}
+		$cacheDir = \System::getContainer()->getParameter('kernel.cache_dir') . '/contao';
 
 		$dirFullPath = $cacheDir . '/rocksolid_icon_picker';
 		$dirPath = $dirFullPath;
