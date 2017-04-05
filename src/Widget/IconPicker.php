@@ -40,6 +40,7 @@ class IconPicker extends \Widget
 
 		$fontPath = $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['iconFont'];
 		$fontPathNoSuffix = implode('.', explode('.', $fontPath, -1));
+        $fontPathNoSuffix = preg_replace('/^web\//', '', $fontPathNoSuffix);
 
 		if (!file_exists(TL_ROOT . '/' . $fontPath)) {
 			return '<p class="tl_gerror"><strong>'
