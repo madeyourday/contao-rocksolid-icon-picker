@@ -151,7 +151,10 @@ class IconPicker extends \Widget
 
 		$dirFullPath = $cacheDir . '/rocksolid_icon_picker';
 		$dirPath = $dirFullPath;
-		if (substr($dirPath, 0, strlen(TL_ROOT) + 1) === TL_ROOT . '/') {
+		if (
+			substr($dirPath, 0, strlen(TL_ROOT) + 1) === TL_ROOT . '/'
+			|| substr($dirPath, 0, strlen(TL_ROOT) + 1) === TL_ROOT . '\\'
+		) {
 			$dirPath = substr($dirPath, strlen(TL_ROOT) + 1);
 		}
 
