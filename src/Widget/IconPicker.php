@@ -277,8 +277,9 @@ class IconPicker extends \Widget
 				));
 
 				foreach ($glyphs as $key => $glyph) {
-					if (isset($iconNames[$glyph['code']]) && empty($glyph['name'])) {
-						$glyphs[$key]['name'] = $iconNames[$glyph['code']];
+					if (isset($iconNames[$glyph['code']]) && (empty($glyph['name']) || stripos($glyph['name'], $iconNames[$glyph['code']]) === false)) {
+						$glyphs[$key]['name'] = (empty($glyph['name']) ? '' : $glyph['name'] . ' ')
+							. $iconNames[$glyph['code']];
 					}
 				}
 
