@@ -85,7 +85,7 @@ var open = function(iconsWrap) {
 			events: {click: clickIcon}
 		}));
 		if (icon.name) {
-			elements.getLast().set('data-name', icon.name);
+			elements.getLast().set('data-name', icon.name).set('title', icon.name);
 		}
 	});
 
