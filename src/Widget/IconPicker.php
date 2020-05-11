@@ -38,7 +38,7 @@ class IconPicker extends \Widget
 		$GLOBALS['TL_CSS'][] = $assetsDir . '/css/be_main.css';
 		$this->loadLanguageFile('rocksolid_icon_picker');
 
-		$fontPath = $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['iconFont'];
+		$fontPath = $this->iconFont;
 		$fontPathNoSuffix = implode('.', explode('.', $fontPath, -1));
 
 		// Strip web directory prefix
