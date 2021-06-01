@@ -20,13 +20,15 @@
 	background: #f6f6f6;
 }
 .rip_icons {
-	display: inline-block;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	width: 100%;
-	margin-bottom: 20px;
-	padding-right: 3px;
+	position: absolute;
+	background: #FFF;
+    	z-index: 10;
+    	width: 250px;
+    	margin-left: -120px;
+    	margin-top: 42px;
 }
 .rip_icons_toolbar {
 	position: relative;
