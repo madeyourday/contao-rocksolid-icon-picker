@@ -8,12 +8,17 @@
 
 namespace MadeYourDay\RockSolidIconPicker\Widget;
 
+use Contao\File;
+use Contao\StringUtil;
+use Contao\System;
+use Contao\Widget;
+
 /**
  * Icon picker widget
  *
  * @author Martin Auswöger <martin@madeyourday.net>
  */
-class IconPicker extends \Widget
+class IconPicker extends Widget
 {
 	/**
 	 * @var boolean Submit user input
@@ -42,15 +47,15 @@ class IconPicker extends \Widget
 		$fontPathNoSuffix = implode('.', explode('.', $fontPath, -1));
 
 		// Strip web directory prefix
-		if ($webDir = \System::getContainer()->getParameter('contao.web_dir')) {
-			$webDir = \StringUtil::stripRootDir($webDir);
+		if ($webDir = System::getContainer()->getParameter('contao.web_dir')) {
+			$webDir = StringUtil::stripRootDir($webDir);
 		}
 		else {
 			$webDir = 'web';
 		}
 		$fontPathNoSuffix = preg_replace('(^'.preg_quote($webDir).'/)', '', $fontPathNoSuffix);
 
-		if (!file_exists(TL_ROOT . '/' . $fontPath)) {
+		if (!file_exists(System::getContainer()->getParameter('kernel.project_dir') . '/' . $fontPath)) {
 			return '<p class="tl_gerror"><strong>'
 				. sprintf($GLOBALS['TL_LANG']['rocksolid_icon_picker']['font_not_found'], $fontPath)
 				. '</strong></p>';
@@ -158,15 +163,15 @@ class IconPicker extends \Widget
 	 */
 	public static function getCacheDirPaths()
 	{
-		$cacheDir = \System::getContainer()->getParameter('kernel.cache_dir') . '/contao';
+		$cacheDir = System::getContainer()->getParameter('kernel.cache_dir') . '/contao';
 
 		$dirFullPath = $cacheDir . '/rocksolid_icon_picker';
 		$dirPath = $dirFullPath;
 		if (
-			substr($dirPath, 0, strlen(TL_ROOT) + 1) === TL_ROOT . '/'
-			|| substr($dirPath, 0, strlen(TL_ROOT) + 1) === TL_ROOT . '\\'
+			substr($dirPath, 0, strlen(System::getContainer()->getParameter('kernel.project_dir')) + 1) === System::getContainer()->getParameter('kernel.project_dir') . '/'
+			|| substr($dirPath, 0, strlen(System::getContainer()->getParameter('kernel.project_dir')) + 1) === System::getContainer()->getParameter('kernel.project_dir') . '\\'
 		) {
-			$dirPath = substr($dirPath, strlen(TL_ROOT) + 1);
+			$dirPath = substr($dirPath, strlen(System::getContainer()->getParameter('kernel.project_dir')) + 1);
 		}
 
 		return array(
@@ -183,16 +188,16 @@ class IconPicker extends \Widget
 	 */
 	static public function getIconsFromFont($fontPath)
 	{
-		if (!$fontPath || !file_exists(TL_ROOT . '/' . $fontPath)) {
+		if (!$fontPath || !file_exists(System::getContainer()->getParameter('kernel.project_dir') . '/' . $fontPath)) {
 			return array();
 		}
 
 		// calculate the cache key
-		$cacheKey = md5_file(TL_ROOT . '/' . $fontPath);
-		if (file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.html')) {
+		$cacheKey = md5_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $fontPath);
+		if (file_exists($infoFilePath = System::getContainer()->getParameter('kernel.project_dir') . '/' . substr($fontPath, 0, -4) . '.html')) {
 			$cacheKey = md5($cacheKey . md5_file($infoFilePath));
 		}
-		if (file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.css')) {
+		if (file_exists($infoFilePath = System::getContainer()->getParameter('kernel.project_dir') . '/' . substr($fontPath, 0, -4) . '.css')) {
 			$cacheKey = md5($cacheKey . md5_file($infoFilePath));
 		}
 		$cacheDirPaths = static::getCacheDirPaths();
@@ -202,7 +207,7 @@ class IconPicker extends \Widget
 			return include $cacheFileFullPath;
 		}
 
-		$font = new \SimpleXMLElement(TL_ROOT . '/' . $fontPath, null, true);
+		$font = new \SimpleXMLElement(System::getContainer()->getParameter('kernel.project_dir') . '/' . $fontPath, null, true);
 		if(
 			!isset($font->defs[0]->font[0]->glyph) ||
 			!count($font->defs[0]->font[0]->glyph)
@@ -235,8 +240,8 @@ class IconPicker extends \Widget
 		}
 
 		if (
-			file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.html') ||
-			file_exists($infoFilePath = TL_ROOT . '/' . substr($fontPath, 0, -4) . '.css')
+			file_exists($infoFilePath = System::getContainer()->getParameter('kernel.project_dir') . '/' . substr($fontPath, 0, -4) . '.html') ||
+			file_exists($infoFilePath = System::getContainer()->getParameter('kernel.project_dir') . '/' . substr($fontPath, 0, -4) . '.css')
 		) {
 
 			$infoFileContents = file_get_contents($infoFilePath);
@@ -287,7 +292,7 @@ class IconPicker extends \Widget
 
 		}
 
-		$cacheFile = new \File($cacheFilePath, true);
+		$cacheFile = new File($cacheFilePath, true);
 		$cacheFile->write('<?php' . "\n" . 'return ' . var_export($glyphs, true) . ';');
 		$cacheFile->close();
 
@@ -305,7 +310,7 @@ class IconPicker extends \Widget
 		if (is_dir($cacheDirPaths['fullPath'])) {
 			foreach (scandir($cacheDirPaths['fullPath']) as $file) {
 				if (substr($file, -4) === '.php') {
-					$file = new \File($cacheDirPaths['path'] . '/' . $file);
+					$file = new File($cacheDirPaths['path'] . '/' . $file);
 					$file->delete();
 				}
 			}
