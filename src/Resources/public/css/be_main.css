@@ -71,3 +71,23 @@
 .rip_icons.rip_collapsed {
 	display: none;
 }
+
+/* Dark theme */
+html[data-color-scheme="dark"] .rip_selected_icon {
+	background-color: #151619;
+	border-color: #44454a;
+}
+
+html[data-color-scheme="dark"] .rip_icons_toolbar {
+	background-color: #31333a;
+	border-color: #44454a;
+}
+
+html[data-color-scheme="dark"] .rip_icons > a {
+	border-color: #44454a;
+}
+
+html[data-color-scheme="dark"] .rip_icons > a:hover {
+	background-color: #31333a;
+	color: var(--text);
+}
