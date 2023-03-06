@@ -11,13 +11,13 @@
 	min-width: 32px;
 	margin: 5px 10px 5px 0;
 	padding: 6px;
-	border: 1px solid #ccc;
+	border: 1px solid var(--form-border, #aaa);
 	/* imporant needed to overwrite `.widget > div` from basic.css */
 	font-size: 32px !important;
 	line-height: 1;
 	text-align: center;
 	vertical-align: middle;
-	background: #f6f6f6;
+	background: var(--form-bg, #fff);
 }
 .rip_icons {
 	display: inline-block;
@@ -32,9 +32,9 @@
 	position: relative;
 	margin-bottom: -1px;
 	padding: 2px 2px 2px 10px;
-	border: 1px solid #ccc;
+	border: 1px solid var(--form-border, #aaa);
 	font-family: Verdana, Arial, sans-serif;
-	background: #f6f6f6;
+	background: var(--form-bg, #fff);
 }
 .rip_icons_toolbar input {
 	width: 40%;
@@ -54,7 +54,7 @@
 	height: 32px;
 	margin: 0 -1px -1px 0;
 	padding: 4px;
-	border: 1px solid #ccc;
+	border: 1px solid var(--form-border, #aaa);
 	font-family: inherit;
 	font-size: 32px;
 	line-height: 1;
@@ -62,32 +62,12 @@
 }
 .rip_icons > a:hover,
 .rip_icons > a:focus {
-	color: #fff;
-	background: #666;
+	color: var(--invert-text, #fff);
+	background: var(--invert-bg, #333);
 	-webkit-transform: scale(2);
 	transform: scale(2);
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3)
 }
 .rip_icons.rip_collapsed {
 	display: none;
-}
-
-/* Dark theme */
-html[data-color-scheme="dark"] .rip_selected_icon {
-	background-color: #151619;
-	border-color: #44454a;
-}
-
-html[data-color-scheme="dark"] .rip_icons_toolbar {
-	background-color: #31333a;
-	border-color: #44454a;
-}
-
-html[data-color-scheme="dark"] .rip_icons > a {
-	border-color: #44454a;
-}
-
-html[data-color-scheme="dark"] .rip_icons > a:hover {
-	background-color: #31333a;
-	color: var(--text);
 }
