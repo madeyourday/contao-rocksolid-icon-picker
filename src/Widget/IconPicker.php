@@ -141,8 +141,7 @@ class IconPicker extends Widget
 		$html .= '<style>';
 		$html .= '@font-face {';
 		$html .= '	font-family: ' . $fontFamily . ';';
-		$html .= '	src: url(\'' . $fontPathNoSuffix . '.eot\');';
-		$html .= '	src: url(\'' . $fontPathNoSuffix . '.eot?#iefix\') format(\'embedded-opentype\'),';
+		$html .= '	src: url(\'' . $fontPathNoSuffix . '.woff2\') format(\'woff2\'),';
 		$html .= '	     url(\'' . $fontPathNoSuffix . '.woff\') format(\'woff\'),';
 		$html .= '	     url(\'' . $fontPathNoSuffix . '.ttf\') format(\'truetype\'),';
 		$html .= '	     url(\'' . $fontPathNoSuffix . '.svg#svg_fontregular\') format(\'svg\');';
